@@ -1,12 +1,15 @@
-#include "LedControl.h" 
+#include <LedControl.h>
 LedControl lc=LedControl(12,11,10,2); 
 int x = 0; //row
 int y = 0; //col
-int c = 8; // counter
+int cmax = 7; // counter max
+int cmin = 0; //counter min
+int big = 0;
+
 void setup() {
 
 lc.shutdown(0,false);
-lc.setIntensity(0,16);
+lc.setIntensity(0,8);
 }
 
 void loop() {
@@ -25,15 +28,15 @@ if (b == 8){
 }
 */
 
-if (y != c && x==0) {
+if (y != 7 && x==0) {
   y=y+1;
-}
+  }
 
-if (y == c && x!=c) {
+if (y == 7 && x!=7) {
   x=x+1;
-}
+  }
 
-if (y != 0 && x == c) {
+if (y != 0 && x == 7) {
   y=y-1;
 }
 
@@ -41,8 +44,27 @@ if (y == 0 && x !=1){
   x=x-1;
 }
 
+//8 is done
+
+if (y != 6 && x==1) {
+  y=y+1;
+  }
+
+if (y == 6 && x!=6) {
+  x=x+1;
+}
+
+if (y != 1 && x == 6) {
+  y=y-1;
+}
+
+if (y == 1 && x !=2){
+  x=x-1;
+}
+
 lc.setLed(0, x, y, true);
-delay(75);
-lc.setLed(0 ,x, y,false);
+delay(100);
+lc.setLed(0, x, y, false);
+delay(100);
 
 }
