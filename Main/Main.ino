@@ -1,3 +1,4 @@
+#include <Keypad.h>
 #include <LedControl.h>
 
 /*
@@ -10,9 +11,30 @@
  */
 LedControl lc=LedControl(12,11,10,1);
 
+
+const byte ROWS = 4; // Four rows
+const byte COLS = 4; // Three columns
+// Define the Keymap
+char keys[ROWS][COLS] = {
+  {'1','2','3', '4'},
+  {'5','6','7', '8'},
+  {'9','0','A', 'B'},
+  {'C','D','E', 'F'}
+};
+// Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
+byte rowPins[ROWS] = { 7, 6, 8, 9 };
+// Connect keypad COL0, COL1 and COL2 to these Arduino pins.
+byte colPins[COLS] = { 5, 4, 3, 2 }; 
+
+// Create the Keypad
+Keypad keypd = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+
+
 const int animationMultiplier = 100;
 
 void setup() {
+  Serial.begin(9600);
+  
   /*
   The MAX72XX is in power-saving mode on startup,
   we have to do a wakeup call
@@ -27,11 +49,34 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
-  laserIn(animationMultiplier);
-  crossOut(animationMultiplier);
-  crossIn(animationMultiplier);
-  laserOut(animationMultiplier);
+  char key = keypd.getKey();
+  if(key)  // Check for a valid key.
+  {
+    Serial.println(key);
+
+    switch (key){
+      case '1':
+        laserIn(animationMultiplier);
+        break;
+        
+      case '2':
+        laserOut(animationMultiplier);
+        break;
+
+      case '3':
+        crossIn(animationMultiplier);
+        break;
+
+      case '4':
+        crossOut(animationMultiplier);
+        break;
+
+      default:
+        break;
+    }
+
+    lc.clearDisplay(0);
+  }
 }
 
 void crossIn(int aniSpeed){
