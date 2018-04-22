@@ -40,6 +40,9 @@ char keys[10] = {'0','0','0','0','0','0','0','0','0','0'};
 // Set up a list for animation step for each key
 int steps[10] = {0,0,0,0,0,0,0,0,0,0};
 
+// Set up for spiral loops
+int spiralMatrix[64][2] = {};
+
 void setup() {
 
   // Activate console logging
@@ -54,6 +57,38 @@ void setup() {
   lc.setIntensity(0,1);
   /* and clear the display */
   lc.clearDisplay(0);
+
+  int count = 0;
+
+  for(int i = 0; i < 4; i++){
+    //Top left to top right
+    for(int j = 0; j < (4-i)*2-1; j++){
+      spiralMatrix[count][0] = i;
+      spiralMatrix[count][1] = i + j;
+      count++;
+    }
+
+    //Top right to bottom right
+    for(int j = 0; j < (4-i)*2-1; j++){
+      spiralMatrix[count][0] = i + j;
+      spiralMatrix[count][1] = 7 - i;
+      count++;
+    }
+
+    //Bottom Right to bottom left
+    for(int j = 0; j < (4-i)*2-1; j++){
+      spiralMatrix[count][0] = 7 - i;
+      spiralMatrix[count][1] = 7 - i - j;
+      count++;
+    }
+
+    //Bottom left to top left
+    for(int j = 0; j < (4-i)*2-1; j++){
+      spiralMatrix[count][0] = 8 - 1 - i - j;
+      spiralMatrix[count][1] = i;
+      count++;
+    }
+  }
 
 }
 
@@ -80,6 +115,10 @@ void loop() {
     
     else if (keys[i] == '4') {
       crossOut(steps[i], keys[i]);
+    }
+
+    else if (keys[i] == '5') {
+      spiralIn(steps[i], keys[i]);
     }
   }
 
@@ -240,35 +279,17 @@ void laserOut(int aniStep, int keysId){
   
 }
 
-void spiralIn(int aniSpeed){
-  for(int i = 0; i < 4; i++){
-    //Top left to top right
-    for(int j = 0; j < (4-i)*2-1; j++){
-      lc.clearDisplay(0);
-      lc.setLed(0, i, i+j, true);
-      delay(aniSpeed);
-    }
+void spiralIn(int aniStep, int keysId){
 
-    //Top right to bottom right
-    for(int j = 0; j < (4-i)*2-1; j++){
-      lc.clearDisplay(0);
-      lc.setLed(0, i+j, 7-i, true);
-      delay(aniSpeed);
-    }
+  lc.setLed(0, spiralMatrix[aniStep][0], spiralMatrix[aniStep][1], true);
 
-    //Bottom Right to bottom left
-    for(int j = 0; j < (4-i)*2-1; j++){
-      lc.clearDisplay(0);
-      lc.setLed(0, 7-i, 7-i-j, true);
-      delay(aniSpeed);
-    }
+  // Adds to the frame count
+  steps[keysId] += 1;
 
-    //Bottom left to top left
-    for(int j = 0; j < (4-i)*2-1; j++){
-      lc.clearDisplay(0);
-      lc.setLed(0, 8-1-i-j, i, true);
-      delay(aniSpeed);
-    }
+  // If the the frame count reaches the end of the animation, reset everything
+  if (aniStep == 64) {
+    keys[keysId] = '0';
+    steps[keysId] = 0;
   }
 }
 
