@@ -71,6 +71,17 @@ void loop() {
         crossOut(animationMultiplier);
         break;
 
+      case '5':
+        spiralIn(animationMultiplier);
+        break;
+
+
+      case 'F':
+        lc.clearDisplay(0);
+        lc.setLed(0, 0, 0, true);
+        delay(1000);
+        break;
+
       default:
         break;
     }
@@ -149,3 +160,36 @@ void laserOut(int aniSpeed){
     delay(aniSpeed);
   }
 }
+
+void spiralIn(int aniSpeed){
+  for(int i = 0; i < 4; i++){
+    //Top left to top right
+    for(int j = 0; j < (4-i)*2-1; j++){
+      lc.clearDisplay(0);
+      lc.setLed(0, i, i+j, true);
+      delay(aniSpeed);
+    }
+
+    //Top right to bottom right
+    for(int j = 0; j < (4-i)*2-1; j++){
+      lc.clearDisplay(0);
+      lc.setLed(0, i+j, 7-i, true);
+      delay(aniSpeed);
+    }
+
+    //Bottom Right to bottom left
+    for(int j = 0; j < (4-i)*2-1; j++){
+      lc.clearDisplay(0);
+      lc.setLed(0, 7-i, 7-i-j, true);
+      delay(aniSpeed);
+    }
+
+    //Bottom left to top left
+    for(int j = 0; j < (4-i)*2-1; j++){
+      lc.clearDisplay(0);
+      lc.setLed(0, 8-1-i-j, i, true);
+      delay(aniSpeed);
+    }
+  }
+}
+
