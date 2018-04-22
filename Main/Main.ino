@@ -114,6 +114,8 @@ void loop() {
       }else if (keys[i] == '5') {
         spiralIn(steps[i], i);
         
+      }else if (keys[i] == '9'){
+        conoways(steps[i], i);
       }
   
       // To add more keys, add an else if statement, then feed in steps[i] and i
@@ -339,6 +341,21 @@ void stripWhiteFill(int aniStep, int keysId){
     keys[keysId] = '0';
     steps[keysId] = 0;
     // Resets list
+  }
+}
+
+void conoways (int aniStep, int keysId){
+  int rowMatrix[8][8] = {{0,0,16,8,56,0,0,0},{0,0,0,40,24,16,0,0},{0,0,0,8,40,24,0,0},{0,0,0,16,12,24,0,0},{0,0,0,8,4,28,0,0},{0,0,0,0,20,12,8,0},{0,0,0,0,4,20,12,0},{0,0,0,0,4,2,14,0}};
+  
+  for (int i = 0; i < 8; i++) {
+    lc.setRow(0, i, rowMatrix[aniStep][i]);
+  }
+  
+  steps[keysId] += 1;
+  
+  if (aniStep == 7) {
+    keys[keysId] = '0';
+    steps[keysId] = 0;
   }
 }
 
