@@ -22,7 +22,7 @@ void setup() {
   //Sets up matrix array
   for(int x = 0; x < X_LEN; x++){
     for(int y = 0; Y_LEN; y++){
-      for(int i = 0; i < 3; i++){
+      for(int i = 0; i < 4; i++){
         matrix[x][y][i] = 0;
       }
 
@@ -38,11 +38,11 @@ void loop() {
   setPixel(0, 1, 0, 255, 0, 10);
   showMatrix();
   delay(2500);
-
-  setPixel(0, 0, 0, 255, 0);
-  setPixel(0, 1, 255, 0, 0, 10);
-  showMatrix();
-  delay(2500);
+//
+//  setPixel(0, 0, 0, 255, 0);
+//  setPixel(0, 1, 255, 0, 0, 10);
+//  showMatrix();
+//  delay(2500);
 }
 
 //Sets Pixel Color in array w/o brightness
