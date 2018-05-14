@@ -2,7 +2,7 @@ import spidev
 import time
 import ledMatrix
 
-sleep(1)
+time.sleep(1)
 
 spi = spidev.SpiDev()
 spi.open(0, 0)
