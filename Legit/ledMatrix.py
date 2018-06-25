@@ -1,4 +1,5 @@
 import spidev
+import numpy
 
 class apa102cMatrix:
     def __init__(self, xLen, yLen, spiBus, spiDevice, spiMaxSpeed):
@@ -13,27 +14,18 @@ class apa102cMatrix:
     def test(self):
         print("Start test")
         print(self.spi.max_speed_hz)
-
-        print(self.ledArray)
         
-        for i in range(4):
-            self.spi.xfer([0])
+        self.showLedArray()
 
-        self.spi.xfer([0b11100001,255,0,0])
-
-        self.spi.xfer([0b11100001,0,255,0])
-
-        self.spi.xfer([0b11100001,255,0,0])
-
-        self.spi.xfer([0b11100001,255,0,0])
-
-        for i in range(4):
-            self.spi.xfer([255])
+        self.ledArray[1][0][0] = 100
+               
+        
+        self.showLedArray()
 
     def setPixel(self, xPos, yPos, red, blue, green, *brightness):
         self.ledArray[xPos][yPos][0] = red
         self.ledArray[xPos][yPos][1] = blue
-        self.ledArray[0][0][2] = green
+        self.ledArray[xPos][yPos][2] = green
 
         if len(brightness) > 0:
             self.ledArray[xPos][yPos][3] = min([31, max([1, brightness[0]])])
